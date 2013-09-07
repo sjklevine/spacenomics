@@ -5,8 +5,10 @@ public class Planet : MonoBehaviour {
 
 	
 	public bool hasMineralRights;
-	public bool mineralRightCost;
+	public bool mineralRightCost ;
 	public string planetName; 
+	public int travelCost = 75;
+	public int buyCost =100;
 
 	// Use this for initialization
 	void Start () {
