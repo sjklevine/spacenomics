@@ -6,7 +6,7 @@ public class Planet : MonoBehaviour {
 	
 	public bool hasMineralRights;
 	public bool mineralRightCost;
-	public string planetNsame; 
+	public string planetName; 
 
 	// Use this for initialization
 	void Start () {
