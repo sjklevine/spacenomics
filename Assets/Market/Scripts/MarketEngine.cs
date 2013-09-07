@@ -2,9 +2,8 @@
 using System.Collections;
 
 public class MarketEngine : MonoBehaviour {
-
+	
 	public Hashtable ElementTable;
-
 	[SerializeField]
 	private Element[] Elements;
 	
@@ -22,7 +21,7 @@ public class MarketEngine : MonoBehaviour {
 
 	public void ProcessAllNewMarketValues(bool UseGlobalForces = true){
 		foreach(var Key in ElementTable.Keys){
-			Element ThisElement = (Element)ElementTable[Key];
+			Element ThisElement = (Element) ElementTable[Key];
 			ThisElement.CalculateNewMarketValue(UseGlobalForces);
 		}
 	}
