@@ -71,7 +71,7 @@ public class GalaxyMap : MonoBehaviour {
 					MinePlanet();
 				}else if(theBox.Market.transform == hit.collider.transform  && !selected.hasMineralRights){
 					SetMiningRight();
-				}else if (theBox.Travel.transform == hit.collider.transform ) {
+				}else if (theBox.Travel.transform == hit.collider.transform && GameModel.Instance.money >= 50 ) {
 					MoveToPlanet();
 				}else if (theBox.Cancel.transform == hit.collider.transform  ) {
 					//Nothing
@@ -105,6 +105,14 @@ public class GalaxyMap : MonoBehaviour {
 			theBox.Action.gameObject.renderer.material.color = showColor;
 		}
 
+
+
+		if( GameModel.Instance.money < 50){
+			theBox.Travel.gameObject.renderer.material.color = hiddenColor;
+		}else{
+			theBox.Travel.gameObject.renderer.material.color = showColor;
+		}
+		
 		//theBox.Market.gameObject.SetActive (!selected.hasMineralRights);
 		//showMenu = false;
 		this.renderer.material.color = hiddenColor;
