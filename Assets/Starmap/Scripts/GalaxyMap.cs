@@ -67,7 +67,7 @@ public class GalaxyMap : MonoBehaviour {
 					}
 				}
 			} else {
-				if( theBox.Action.transform == hit.collider.transform && selected.Equals(current)){
+				if( theBox.Action.transform == hit.collider.transform && selected.Equals(current) && current.hasMineralRights){
 					MinePlanet();
 				}else if(theBox.Market.transform == hit.collider.transform  && !selected.hasMineralRights){
 					SetMiningRight();
@@ -99,7 +99,7 @@ public class GalaxyMap : MonoBehaviour {
 			theBox.Market.gameObject.renderer.material.color = showColor;
 		}
 
-		if(!selected.Equals(current)){
+		if(!selected.Equals(current)|| !current.hasMineralRights){
 			theBox.Action.gameObject.renderer.material.color = hiddenColor;
 		}else{
 			theBox.Action.gameObject.renderer.material.color = showColor;
