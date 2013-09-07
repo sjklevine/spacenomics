@@ -7,7 +7,7 @@ using System.Xml;
 public class GameModel
 {
 	private static GameModel instance;
-	public static string[] elementNames = {"Spice", "Unobtainium", "Oxy Ale", "Vesper Gas", "The Fifth Element", "Obtainium"};
+	public static string[] elementNames = {"Spice", "Unobtainium", "OxyAle", "VesperGas", "TheFifthElement", "Obtainium"};
 	public Hashtable cargo;
 	public int money;
 	public int thePlanet = 7;

@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 					target = c.gameObject;
 					break;
 				} else if (c.gameObject.tag == "Station"){
-					Application.LoadLevel("GalaxyMap");
+					Application.LoadLevel("Starmap");
 				}
 			}
 		}
