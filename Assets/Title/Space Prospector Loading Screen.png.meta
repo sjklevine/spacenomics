@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e4f72dc4df596c544bd6c698d2e17a3d
+guid: 97dde9b37a07a4a01bbc18579856d7b0
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -40,13 +40,13 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: button_cancel
+    - name: Space Prospector Loading Screen
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 146
-        height: 146
+        width: 1024
+        height: 692
       alignment: 0
       pivot: {x: .5, y: .5}
   spriteAtlasHint: 

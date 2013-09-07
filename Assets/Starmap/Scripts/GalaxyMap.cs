@@ -5,12 +5,17 @@ public class GalaxyMap : MonoBehaviour {
 
 
 	public List<Planet> worlds; 
-
 	private bool showMenu = false;
 	// Use this for initialization
 
+	public Planet selected = null;
+	public Planet current = null; 
 
+	public GameObject Ship = null;
+	public InfoBox theBox;
 
+	private Color showColor = new Color (1.0f, 1.0f,1.0f);
+	private Color hiddenColor = new Color (.3f, .3f,.3f);
 
 	void OnEnable(){
 		//these events are obsolete, replaced by onMultiTapE, but it's still usable
@@ -19,7 +24,10 @@ public class GalaxyMap : MonoBehaviour {
 		
 
 	}
-	
+
+	public GalaxyMap (){
+		//selected = worlds [0];
+	}
 	void OnDisable(){
 		Gesture.onShortTapE -= OnTapShort;
 		Gesture.onLongTapE -= OnTap;
@@ -31,37 +39,88 @@ public class GalaxyMap : MonoBehaviour {
 	void OnTap(Tap tap){
 		//do a raycast base on the position of the tap
 		Ray ray = Camera.main.ScreenPointToRay(tap.pos);
-		RaycastHit hit;
-		Debug.Log ("hit");
-		if (!showMenu) {
-			Debug.Log("HI1");
-			//if the tap lands on the longTapObj
-			if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-					foreach(Planet p in worlds){
-					Debug.Log("HI2");
-					if (hit.collider.transform == p.transform) {
-							Debug.Log(p.planetName);
-						}
-					}
-			}
-		}
+		rayCheck(ray);
 	}
 
-
+ 
 	void OnTapShort(Vector2 tap){
 		//do a raycast base on the position of the tap
 		Ray ray = Camera.main.ScreenPointToRay(tap);
+		rayCheck(ray);
+	}
+	void rayCheck( Ray r){
 		RaycastHit hit;
-		if (!showMenu) {
-			//if the tap lands on the longTapObj
-			if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-				foreach(Planet p in worlds){
+		//if the tap lands on the longTapObj
+		if (Physics.Raycast (r, out hit, Mathf.Infinity)) {
+			Debug.Log(showMenu);
+			if (!showMenu) {
+				foreach (Planet p in worlds) {
 					if (hit.collider.transform == p.transform) {
-						Debug.Log(p.planetName);
+						selected = p;
+						showMenu = true;
+						showActionMenu ();
+						break;
 					}
 				}
+			} else {
+				if( theBox.Action.transform == hit.collider.transform){
+					MinePlanet();
+				}else if(theBox.Market.transform == hit.collider.transform  && !selected.hasMineralRights){
+					SetMiningRight();
+				}else if (theBox.Travel.transform == hit.collider.transform ) {
+					MoveToPlanet();
+				}else if (theBox.Cancel.transform == hit.collider.transform  ) {
+					//Nothing
+					showMenu = false;
+					theBox.gameObject.SetActive(false);
+					this.renderer.material.color = showColor;
+				}
+
+				
 			}
 		}
+				
 	}
 
+	void showActionMenu(){
+
+		theBox.BuyText.gameObject.GetComponent<TextMesh>().text = "Buy Cost: "+ this.selected.buyCost;
+		theBox.TravelText.gameObject.GetComponent<TextMesh>().text = "Travel Cost: "+ this.selected.travelCost;
+
+		theBox.gameObject.SetActive(true);
+
+		if(selected.hasMineralRights){
+			theBox.Market.gameObject.renderer.material.color = hiddenColor;
+		}else{
+			theBox.Market.gameObject.renderer.material.color = showColor;
+		}
+		//theBox.Market.gameObject.SetActive (!selected.hasMineralRights);
+		//showMenu = false;
+		this.renderer.material.color = hiddenColor;
+
+	} 
+
+	public void MinePlanet(){
+		showMenu = false;
+		Debug.Log ("LOAD MINEING SCENE");
+		theBox.gameObject.SetActive(false);
+		this.renderer.material.color = showColor;
+	}
+	
+	public void SetMiningRight(){
+		showMenu = false;
+		selected.hasMineralRights = true;
+		theBox.gameObject.SetActive(false);
+		this.renderer.material.color = showColor;
+	}
+	
+	public void MoveToPlanet(){
+		showMenu = false;
+		current = selected;
+		theBox.gameObject.SetActive(false);
+		 
+		Ship.transform.parent = current.transform;
+		Ship.transform.localPosition=  new Vector3(0.0f,0.0f,-2);
+		this.renderer.material.color = showColor;
+	}
 }
