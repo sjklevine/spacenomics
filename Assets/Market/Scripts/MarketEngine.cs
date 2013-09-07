@@ -10,7 +10,7 @@ public class MarketEngine : MonoBehaviour {
 	
 	void Awake(){
 		InitializeElementTable();
-		ProcessNewMarketValues(true);
+		ProcessAllNewMarketValues();
 	}
 
 	void InitializeElementTable(){
@@ -20,10 +20,10 @@ public class MarketEngine : MonoBehaviour {
 		}
 	}
 
-	public void ProcessNewMarketValues(){
+	public void ProcessAllNewMarketValues(bool UseGlobalForces = true){
 		foreach(var Key in ElementTable.Keys){
 			Element ThisElement = (Element)ElementTable[Key];
-			ThisElement.CalculateNewMarketValue();
+			ThisElement.CalculateNewMarketValue(UseGlobalForces);
 		}
 	}
 }

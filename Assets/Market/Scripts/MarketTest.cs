@@ -8,7 +8,7 @@ public class MarketTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown("9")){
-			Market.ProcessNewMarketValues();
+			Market.ProcessAllNewMarketValues();
 		}
 
 		if(Input.GetKeyDown("0")){
