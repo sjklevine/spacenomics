@@ -67,11 +67,11 @@ public class GalaxyMap : MonoBehaviour {
 					}
 				}
 			} else {
-				if( theBox.Action.transform == hit.collider.transform && selected.Equals(current)){
+				if( theBox.Action.transform == hit.collider.transform && selected.Equals(current) && current.hasMineralRights){
 					MinePlanet();
 				}else if(theBox.Market.transform == hit.collider.transform  && !selected.hasMineralRights){
 					SetMiningRight();
-				}else if (theBox.Travel.transform == hit.collider.transform ) {
+				}else if (theBox.Travel.transform == hit.collider.transform && GameModel.Instance.money >= 50 ) {
 					MoveToPlanet();
 				}else if (theBox.Cancel.transform == hit.collider.transform  ) {
 					//Nothing
@@ -99,12 +99,20 @@ public class GalaxyMap : MonoBehaviour {
 			theBox.Market.gameObject.renderer.material.color = showColor;
 		}
 
-		if(!selected.Equals(current)){
+		if(!selected.Equals(current)|| !current.hasMineralRights){
 			theBox.Action.gameObject.renderer.material.color = hiddenColor;
 		}else{
 			theBox.Action.gameObject.renderer.material.color = showColor;
 		}
 
+
+
+		if( GameModel.Instance.money < 50){
+			theBox.Travel.gameObject.renderer.material.color = hiddenColor;
+		}else{
+			theBox.Travel.gameObject.renderer.material.color = showColor;
+		}
+		
 		//theBox.Market.gameObject.SetActive (!selected.hasMineralRights);
 		//showMenu = false;
 		this.renderer.material.color = hiddenColor;
@@ -117,7 +125,14 @@ public class GalaxyMap : MonoBehaviour {
 		                                                 {
 			return bk.Equals(current);
 		});
-		Application.LoadLevel("World");
+
+
+		if (current != worlds [0]) {
+			Application.LoadLevel ("World");
+
+		} else {
+			Application.LoadLevel ("Market");
+		}
 	}
 	
 	public void SetMiningRight(){
