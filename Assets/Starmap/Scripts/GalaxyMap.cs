@@ -37,11 +37,15 @@ public class GalaxyMap : MonoBehaviour {
 
 	//called when a long tap event is ended
 	void OnTap(Tap tap){
-		//do a raycast base on the position of the tap
-		Ray ray = Camera.main.ScreenPointToRay(tap.pos);
-		rayCheck(ray);
+				//do a raycast base on the position of the tap
+				Ray ray = Camera.main.ScreenPointToRay (tap.pos);
+				rayCheck (ray);
 	}
 
+	void Start(){
+		current = worlds [GameModel.Instance.thePlanet];
+		selected = worlds [GameModel.Instance.thePlanet];
+	}
  
 	void OnTapShort(Vector2 tap){
 		//do a raycast base on the position of the tap
@@ -63,7 +67,7 @@ public class GalaxyMap : MonoBehaviour {
 					}
 				}
 			} else {
-				if( theBox.Action.transform == hit.collider.transform){
+				if( theBox.Action.transform == hit.collider.transform && selected.Equals(current)){
 					MinePlanet();
 				}else if(theBox.Market.transform == hit.collider.transform  && !selected.hasMineralRights){
 					SetMiningRight();
@@ -94,6 +98,13 @@ public class GalaxyMap : MonoBehaviour {
 		}else{
 			theBox.Market.gameObject.renderer.material.color = showColor;
 		}
+
+		if(!selected.Equals(current)){
+			theBox.Action.gameObject.renderer.material.color = hiddenColor;
+		}else{
+			theBox.Action.gameObject.renderer.material.color = showColor;
+		}
+
 		//theBox.Market.gameObject.SetActive (!selected.hasMineralRights);
 		//showMenu = false;
 		this.renderer.material.color = hiddenColor;
@@ -102,14 +113,17 @@ public class GalaxyMap : MonoBehaviour {
 
 	public void MinePlanet(){
 		showMenu = false;
-		Debug.Log ("LOAD MINEING SCENE");
-		theBox.gameObject.SetActive(false);
-		this.renderer.material.color = showColor;
+		GameModel.Instance.thePlanet = worlds.FindIndex ( delegate(Planet bk)
+		                                                 {
+			return bk.Equals(current);
+		});
+		Application.LoadLevel("World");
 	}
 	
 	public void SetMiningRight(){
 		showMenu = false;
 		selected.hasMineralRights = true;
+		GameModel.Instance.money = GameModel.Instance.money - current.buyCost;
 		theBox.gameObject.SetActive(false);
 		this.renderer.material.color = showColor;
 	}
@@ -118,7 +132,7 @@ public class GalaxyMap : MonoBehaviour {
 		showMenu = false;
 		current = selected;
 		theBox.gameObject.SetActive(false);
-		 
+		GameModel.Instance.money = GameModel.Instance.money - current.travelCost;
 		Ship.transform.parent = current.transform;
 		Ship.transform.localPosition=  new Vector3(0.0f,0.0f,-2);
 		this.renderer.material.color = showColor;

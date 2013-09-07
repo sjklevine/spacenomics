@@ -10,6 +10,7 @@ public class GameModel
 	public static string[] elementNames = {"Spice", "Unobtainium", "Oxy Ale", "Vesper Gas", "The Fifth Element", "Obtainium"};
 	public Hashtable cargo;
 	public int money;
+	public int thePlanet = 7;
 
 	public GameModel () 
 	{
