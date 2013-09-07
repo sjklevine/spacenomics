@@ -1,12 +1,37 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Starmap/Scripts/MarketController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Ship.cs">
     <Files>
-      <File FileName="Assets/Starmap/Scripts/MarketController.cs" Line="117" Column="87" />
-      <File FileName="Assets/Market/Scripts/MarketEngine.cs" Line="33" Column="25" />
-      <File FileName="Assets/GameModel.cs" Line="10" Column="117" />
-      <File FileName="Assets/Market/Scripts/MarketGUI.cs" Line="12" Column="25" />
+      <File FileName="Assets/Plugins/InputTouches/GameMessage.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WorldBuilder.cs" Line="38" Column="26" />
+      <File FileName="Assets/Scripts/Ship.cs" Line="50" Column="46" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="38" Column="34" />
+      <File FileName="Assets/Scripts/Block.cs" Line="13" Column="4" />
+      <File FileName="Assets/Starmap/Scripts/MarketController.cs" Line="67" Column="39" />
+      <File FileName="Assets/GameModel.cs" Line="10" Column="43" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Market" expanded="True">
+              <Node name="Scripts" expanded="True" />
+            </Node>
+            <Node name="Scripts" expanded="True">
+              <Node name="Ship.cs" selected="True" />
+            </Node>
+            <Node name="Starmap" expanded="True">
+              <Node name="Scripts" expanded="True" />
+            </Node>
+          </Node>
+          <Node name="Assembly-CSharp-firstpass" expanded="True">
+            <Node name="Plugins" expanded="True">
+              <Node name="InputTouches" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
