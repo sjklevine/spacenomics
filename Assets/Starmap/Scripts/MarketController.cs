@@ -43,9 +43,11 @@ public class MarketController : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(tap);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-			//ASSUMING BUY FOR NOW
-			string commodity = "Obtainium";
-			buy(commodity);
+			//Send Button to ButtonClick if it is tagged "Button"
+			if(hit.transform.tag == "Button"){
+				ButtonClick(hit.transform.name);
+			}
+
 			//Here, iterate through your stuff
 			/*
 			foreach(Planet p in worlds){
@@ -80,30 +82,38 @@ public class MarketController : MonoBehaviour {
 			//Update GUI
 			updateMarketGUI();
 		}
-
-
 	}
 
 	void sell(string commodityString){
+		//Get Element from market
+		Element thisElement = (Element)myMarket.ElementTable[commodityString];
+		
+		//Check to see if you can buy (cash and inv available)
+//		if(GameModel.Instance.money > (int)thisElement.CurrentMarketValue 
+//		   && thisElement.MarketSupply > 0){
 
+		//Get Cargo from Hold
+		int CargoAmount = (int)GameModel.Instance.cargo[commodityString];
+
+		if(CargoAmount > 0){
+			//Remove one Cargo from Ship
+			GameModel.Instance.cargo[commodityString] = CargoAmount - 1;
+			
+			//Remove the cargo from the market
+			thisElement.MarketSupply += 1;
+			
+			//Subtract the Moneh
+			GameModel.Instance.money += (int)thisElement.CurrentMarketValue;
+			
+			//Update the market prices!
+			thisElement.CalculateNewMarketValue();
+			
+			//Update GUI
+			updateMarketGUI();
+		}
 	}
 
 	void updateMarketGUI() {
-//		for (int i = 0; i < myAmountLabels.Length; i++) {
-//			string commodity = GameModel.elementNames[i];
-//			myAmountLabels[i].text = GameModel.Instance.cargo[commodity].ToString() + " Spacetons";
-//		}
-//		for (int i = 0; i < marketAmountLabels.Length; i++) {
-//			string commodity = GameModel.elementNames[i];
-//			Element thisElement = (Element) myMarket.ElementTable[commodity];
-//			marketAmountLabels[i].text = thisElement.Supply.ToString() + " Spacetons";
-//		}
-//		for (int i = 0; i < priceLabels.Length; i++) {
-//			string commodity = GameModel.elementNames[i];
-//			Element thisElement = (Element) myMarket.ElementTable[commodity];
-//			priceLabels[i].text = thisElement.CurrentMarketValue.ToString();
-//		}
-
 		for(int i = 0; i < myMarketGUI.Display.Length; i++){
 			//Get Commodity Name
 			string commodityName = GameModel.elementNames[i];
@@ -113,10 +123,28 @@ public class MarketController : MonoBehaviour {
 			CommodityDisplay thisDisplay = (CommodityDisplay)myMarketGUI.DisplayTable[commodityName];
 
 			//SET THE STUFF
-			thisDisplay.Price.text = thisElement.CurrentMarketValue.ToString() + " Space $";
+			thisDisplay.Price.text = "Space $: " + thisElement.CurrentMarketValue.ToString("0.00");
 			thisDisplay.MarketSupply.text = thisElement.MarketSupply.ToString() + " SpaceTons";
 			thisDisplay.YourSupply.text = ((int)GameModel.Instance.cargo[commodityName]).ToString() + " SpaceTons";
 		}
+
+		myMarketGUI.YourMoney.text = "Space $: " + GameModel.Instance.money.ToString("0.00");
 	}
 
+	void ButtonClick(string buttonName){
+		string[] StringArray = buttonName.Split('.');
+		switch(StringArray[0]){
+			case "Buy":
+				buy(StringArray[1]);
+				break;
+			case "Sell":
+				sell(StringArray[1]);
+				break;
+			case "Back":
+				Application.LoadLevel(2);
+				break;
+			default:
+				break;
+		}
+	}
 }
