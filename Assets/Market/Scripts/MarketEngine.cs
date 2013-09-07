@@ -10,7 +10,7 @@ public class MarketEngine : MonoBehaviour {
 	
 	void Awake(){
 		InitializeElementTable();
-		ProcessNewMarketValues();
+		ProcessNewMarketValues(true);
 	}
 
 	void InitializeElementTable(){
@@ -44,12 +44,14 @@ public class Element{
 	
 	public float CurrentMarketValue;
 
-	public void CalculateNewMarketValue(){
+	public void CalculateNewMarketValue(bool UseGlobalForces = false){
 		//Apply Supply Variance
-		Supply = (int)((float)Supply * (1f + Random.Range(-SupplyVariance, SupplyVariance)));
+		if(UseGlobalForces){
+			Supply = (int)((float)Supply * (1f + Random.Range(-SupplyVariance, SupplyVariance)));
 
-		//Minimum Supply Value of 5 every time
-		if(Supply < 5) Supply = 5;
+			//Minimum Supply Value of 5 every time
+			if(Supply < 5) Supply = 5;
+		}
 
 		//Calculate new price
 		float PriceModifier = (MaximumValue - MinimumValue)/100f;
@@ -58,7 +60,9 @@ public class Element{
 		//Make sure the price is not below the minimum floor
 		CurrentMarketValue = CurrentMarketValue > MinimumValue ? CurrentMarketValue : MinimumValue;
 
-		//Apply Random Variance
-		CurrentMarketValue *= (1f + Random.Range(-MarketVariance, MarketVariance));
-	}	
+		if(UseGlobalForces){
+			//Apply Value Variance
+			CurrentMarketValue *= (1f + Random.Range(-MarketVariance, MarketVariance));
+		}
+	}
 }
