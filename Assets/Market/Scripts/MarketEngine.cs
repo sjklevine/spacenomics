@@ -30,7 +30,7 @@ public class MarketEngine : MonoBehaviour {
 [System.Serializable]
 public class Element{
 	public string Name;
-	public int Supply;
+	public int MarketSupply;
 	
 	[SerializeField]
 	private float MinimumValue;
@@ -46,15 +46,15 @@ public class Element{
 	public void CalculateNewMarketValue(bool UseGlobalForces = false){
 		//Apply Supply Variance
 		if(UseGlobalForces){
-			Supply = (int)((float)Supply * (1f + Random.Range(-SupplyVariance, SupplyVariance)));
+			MarketSupply = (int)((float)MarketSupply * (1f + Random.Range(-SupplyVariance, SupplyVariance)));
 
 			//Minimum Supply Value of 5 every time
-			if(Supply < 5) Supply = 5;
+			if(MarketSupply < 5) MarketSupply = 5;
 		}
 
 		//Calculate new price
 		float PriceModifier = (MaximumValue - MinimumValue)/100f;
-		CurrentMarketValue = MaximumValue - (PriceModifier * Supply);
+		CurrentMarketValue = MaximumValue - (PriceModifier * MarketSupply);
 
 		//Make sure the price is not below the minimum floor
 		CurrentMarketValue = CurrentMarketValue > MinimumValue ? CurrentMarketValue : MinimumValue;

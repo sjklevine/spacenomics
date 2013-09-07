@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Market/Scripts/MarketEngine.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Starmap/Scripts/MarketController.cs">
     <Files>
-      <File FileName="Assets/Market/Scripts/MarketEngine.cs" Line="23" Column="31" />
-      <File FileName="Assets/Market/Scripts/MarketTest.cs" Line="11" Column="1" />
-      <File FileName="Assets/Market/Scripts/MarketEngine.cs" Line="45" Column="28" />
+      <File FileName="Assets/Starmap/Scripts/MarketController.cs" Line="117" Column="87" />
+      <File FileName="Assets/Market/Scripts/MarketEngine.cs" Line="33" Column="25" />
+      <File FileName="Assets/GameModel.cs" Line="10" Column="117" />
+      <File FileName="Assets/Market/Scripts/MarketGUI.cs" Line="12" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

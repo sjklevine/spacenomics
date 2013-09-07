@@ -7,10 +7,18 @@ public class MarketController : MonoBehaviour {
 	public GUIText[] priceLabels;
 
 	private MarketEngine myMarket;
+	private MarketGUI myMarketGUI;
 
 	void Start() {
+		//Make Singleton!
+		new GameModel();
+
 		//Grab references!
-		myMarket = this.GetComponent<MarketEngine>();
+		myMarket = GetComponent<MarketEngine>();
+		myMarketGUI = GetComponentInChildren<MarketGUI>();
+
+		//Update Market Prices
+		updateMarketGUI();
 	}
 
 	void OnEnable(){
@@ -36,7 +44,7 @@ public class MarketController : MonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
 			//ASSUMING BUY FOR NOW
-			string commodity = "Obtanium";
+			string commodity = "Obtainium";
 			buy(commodity);
 			//Here, iterate through your stuff
 			/*
@@ -50,34 +58,64 @@ public class MarketController : MonoBehaviour {
 	}
 
 	void buy(string commodityString) {
-		//Check to see if you can buy (cash and inv available)
-		//TODO
-
-		//Put a piece of cargo in your ship
-		int newCargoAmount = (int)GameModel.Instance.cargo[commodityString] + 1;
-		GameModel.Instance.cargo[commodityString] = newCargoAmount;
-
-		//Remove the cargo from the market
+		//Get Element from market
 		Element thisElement = (Element)myMarket.ElementTable[commodityString];
-		thisElement.Supply -= 1;
 
-		//Update the market prices!
-		thisElement.CalculateNewMarketValue();
+		//Check to see if you can buy (cash and inv available)
+		if(GameModel.Instance.money > (int)thisElement.CurrentMarketValue 
+		   && thisElement.MarketSupply > 0){
+			//Put a piece of cargo in your ship
+			int newCargoAmount = (int)GameModel.Instance.cargo[commodityString] + 1;
+			GameModel.Instance.cargo[commodityString] = newCargoAmount;
+
+			//Remove the cargo from the market
+			thisElement.MarketSupply -= 1;
+
+			//Subtract the Moneh
+			GameModel.Instance.money -= (int)thisElement.CurrentMarketValue;
+
+			//Update the market prices!
+			thisElement.CalculateNewMarketValue();
+
+			//Update GUI
+			updateMarketGUI();
+		}
+
+
 	}
 
-	void updateEverything() {
-		for (int i = 0; i < myAmountLabels.Length; i++) {
-			myAmountLabels[i].text = GameModel.Instance.cargo[i].ToString();
-		}
-		for (int i = 0; i < marketAmountLabels.Length; i++) {
-			string commodity = GameModel.elementNames[i];
-			Element thisElement = (Element) myMarket.ElementTable[commodity];
-			marketAmountLabels[i].text = thisElement.Supply.ToString();
-		}
-		for (int i = 0; i < priceLabels.Length; i++) {
-			string commodity = GameModel.elementNames[i];
-			Element thisElement = (Element) myMarket.ElementTable[commodity];
-			priceLabels[i].text = thisElement.CurrentMarketValue.ToString();
+	void sell(string commodityString){
+
+	}
+
+	void updateMarketGUI() {
+//		for (int i = 0; i < myAmountLabels.Length; i++) {
+//			string commodity = GameModel.elementNames[i];
+//			myAmountLabels[i].text = GameModel.Instance.cargo[commodity].ToString() + " Spacetons";
+//		}
+//		for (int i = 0; i < marketAmountLabels.Length; i++) {
+//			string commodity = GameModel.elementNames[i];
+//			Element thisElement = (Element) myMarket.ElementTable[commodity];
+//			marketAmountLabels[i].text = thisElement.Supply.ToString() + " Spacetons";
+//		}
+//		for (int i = 0; i < priceLabels.Length; i++) {
+//			string commodity = GameModel.elementNames[i];
+//			Element thisElement = (Element) myMarket.ElementTable[commodity];
+//			priceLabels[i].text = thisElement.CurrentMarketValue.ToString();
+//		}
+
+		for(int i = 0; i < myMarketGUI.Display.Length; i++){
+			//Get Commodity Name
+			string commodityName = GameModel.elementNames[i];
+			//Get Element
+			Element thisElement = (Element)myMarket.ElementTable[commodityName];
+			//Get GUI Stuff
+			CommodityDisplay thisDisplay = (CommodityDisplay)myMarketGUI.DisplayTable[commodityName];
+
+			//SET THE STUFF
+			thisDisplay.Price.text = thisElement.CurrentMarketValue.ToString() + " Space $";
+			thisDisplay.MarketSupply.text = thisElement.MarketSupply.ToString() + " SpaceTons";
+			thisDisplay.YourSupply.text = ((int)GameModel.Instance.cargo[commodityName]).ToString() + " SpaceTons";
 		}
 	}
 

@@ -7,8 +7,9 @@ using System.Xml;
 public class GameModel
 {
 	private static GameModel instance;
-	public static string[] elementNames = {"Spice", "Unobtanium", "Oxy Ale", "Vesper Gas", "The Fifth Element", "Obtanium"};
+	public static string[] elementNames = {"Spice", "Unobtainium", "Oxy Ale", "Vesper Gas", "The Fifth Element", "Obtainium"};
 	public Hashtable cargo;
+	public int money;
 
 	public GameModel () 
 	{
@@ -20,6 +21,7 @@ public class GameModel
 		
 		instance = this;
 		cargo = new Hashtable();
+		money = 150;
 		foreach (string name in elementNames) {
 			cargo.Add(name, 0);
 		}
