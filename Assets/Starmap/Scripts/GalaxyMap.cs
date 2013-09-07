@@ -117,7 +117,14 @@ public class GalaxyMap : MonoBehaviour {
 		                                                 {
 			return bk.Equals(current);
 		});
-		Application.LoadLevel("World");
+
+
+		if (current != worlds [0]) {
+			Application.LoadLevel ("World");
+
+		} else {
+			Application.LoadLevel ("Market");
+		}
 	}
 	
 	public void SetMiningRight(){
