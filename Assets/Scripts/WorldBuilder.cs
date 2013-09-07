@@ -26,6 +26,18 @@ public class WorldBuilder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		int planet = GameModel.Instance.thePlanet;
+
+		if (planet == 0 || planet == 6){
+			ElementProbability = 50;
+		} else if (planet == 1 || planet == 10){
+			ElementProbability = 40;
+		} else if (planet == 2 || planet == 5 || planet == 9){
+			ElementProbability = 20;
+		} else if (planet == 3 || planet == 4 || planet == 7 || planet == 8){
+			ElementProbability = 10;
+		}
+
 		tileSize = baseTile.renderer.bounds.size.x;
 
 		//Makin squares

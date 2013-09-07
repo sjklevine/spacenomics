@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
 				if (c.gameObject.tag == "Block"){// && Vector3.Distance(this.transform.position, c.transform.position) < 1){
 					target = c.gameObject;
 					break;
+				} else if (c.gameObject.tag == "Station"){
+					Application.LoadLevel("GalaxyMap");
 				}
 			}
 		}
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 		if (target != null){
 			touches = Physics2D.OverlapCircle(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.Distance(this.transform.position, target.transform.position));
 			foreach (Collider2D c in touches){
-				if (c.gameObject.tag != "Block") continue;
+				if (c.gameObject.tag != "Block" ) continue;
 
 				if (Vector3.Distance(this.transform.position, c.transform.position) < Vector3.Distance(this.transform.position, target.transform.position) ){
 					target = c.gameObject;

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Ship : MonoBehaviour {
 	int cargoSpace = 50;
 
+	public TextMesh text;
+
 	public List<Blocks> cargo { get; private set;}
 
 	void Start(){
@@ -17,6 +19,8 @@ public class Ship : MonoBehaviour {
 		}
 
 		cargo.Add(b);
+
+		text.text = "Cargo " + cargo.Count.ToString("00") + "/50";
 
 		return true;
 	}
